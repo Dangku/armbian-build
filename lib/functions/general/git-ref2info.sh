@@ -131,6 +131,10 @@ function memoized_git_ref_to_info() {
 					url="${gitlab_path}/-/raw/${sha1}/Makefile"
 					;;
 
+				"https://gitee.com/"*)
+					url="${git_source}/raw/${sha1}/Makefile"
+					;;
+
 				*)
 					exit_with_error "Unknown git source '${git_source}'"
 					;;
