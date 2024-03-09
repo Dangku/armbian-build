@@ -98,7 +98,7 @@ function download_and_verify_internal() {
 		--timeout=10
 		--allow-piece-length-change=true
 		--max-connection-per-server=2
-		--lowest-speed-limit=500K
+		--lowest-speed-limit=50K
 
 		# BT
 		--seed-time=0
