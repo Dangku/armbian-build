@@ -326,6 +326,7 @@ function adaptative_prepare_host_dependencies() {
 	fi
 
 	if [[ "${wanted_arch}" != "amd64" ]]; then
+		grep -q i386 <(dpkg --print-foreign-architectures) || dpkg --add-architecture i386
 		host_dependencies+=(libc6-amd64-cross) # Support for running x86 binaries (under qemu on other arches)
 	fi
 

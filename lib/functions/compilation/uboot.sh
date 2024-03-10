@@ -73,9 +73,15 @@ function compile_uboot_target() {
 
 	display_alert "${uboot_prefix}Preparing u-boot config '${BOOTCONFIG}'" "${version} ${target_make}" "info"
 	declare -g if_error_detail_message="${uboot_prefix}Failed to configure u-boot ${version} $BOOTCONFIG ${target_make}"
-	run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
-		"KCFLAGS=-fdiagnostics-color=always" \
-		pipetty make "${CTHREADS}" "${BOOTCONFIG}" "CROSS_COMPILE=\"${CCACHE} ${UBOOT_COMPILER}\""
+	# bpi, ignore set KCFLAGS for legacy uboot
+	if [[ $BRANCH != legacy ]]; then
+		run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
+			"KCFLAGS=-fdiagnostics-color=always" \
+			pipetty make "${CTHREADS}" "${BOOTCONFIG}" "CROSS_COMPILE=\"${CCACHE} ${UBOOT_COMPILER}\""
+	else
+		run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
+			pipetty make "${CTHREADS}" "${BOOTCONFIG}" "CROSS_COMPILE=\"${CCACHE} ${UBOOT_COMPILER}\""
+	fi
 
 	# armbian specifics u-boot settings
 	[[ -f .config ]] && sed -i 's/CONFIG_LOCALVERSION=""/CONFIG_LOCALVERSION="-armbian"/g' .config
@@ -150,21 +156,30 @@ function compile_uboot_target() {
 			# CONFIG_ERRNO_STR is not set
 		EXTRA_UBOOT_DEBUG_CONFIGS
 
-		run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
-			"KCFLAGS=-fdiagnostics-color=always" \
-			unbuffer make "olddefconfig" "CROSS_COMPILE=\"$CCACHE $UBOOT_COMPILER\""
-
+		# bpi, ignore set KCFLAGS for legacy uboot
+		if [[ $BRANCH != legacy ]]; then
+			run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
+				"KCFLAGS=-fdiagnostics-color=always" \
+				unbuffer make "olddefconfig" "CROSS_COMPILE=\"$CCACHE $UBOOT_COMPILER\""
+		else
+			run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
+				unbuffer make "olddefconfig" "CROSS_COMPILE=\"$CCACHE $UBOOT_COMPILER\""
+		fi
 	fi
 
 	# cflags will be passed both as CFLAGS, KCFLAGS, and both as make params and as env variables.
 	# boards/families/extensions can customize this via the hook below
-	local -a uboot_cflags_array=(
-		"-fdiagnostics-color=always" # color messages
-		"-Wno-error=maybe-uninitialized"
-		"-Wno-error=misleading-indentation"   # patches have mismatching indentation
-		"-Wno-error=attributes"               # for very old-uboots
-		"-Wno-error=address-of-packed-member" # for very old-uboots
-	)
+	# bpi, ignore set KCFLAGS for legacy uboot
+	if [[ $BRANCH != legacy ]]; then
+		local -a uboot_cflags_array=(
+			"-fdiagnostics-color=always" # color messages
+			"-Wno-error=maybe-uninitialized"
+			"-Wno-error=misleading-indentation"   # patches have mismatching indentation
+			"-Wno-error=attributes"               # for very old-uboots
+			"-Wno-error=address-of-packed-member" # for very old-uboots
+		)
+	fi
+
 	if linux-version compare "${gcc_version_main}" ge "11.0"; then
 		uboot_cflags_array+=(
 			"-Wno-error=array-parameter" # very old uboots
@@ -181,9 +196,15 @@ function compile_uboot_target() {
 
 	# make olddefconfig, so changes made in hook above are consolidated
 	display_alert "${uboot_prefix}Updating u-boot config with olddefconfig" "${version} ${target_make}" "info"
-	run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
-		"KCFLAGS=-fdiagnostics-color=always" \
-		pipetty make "${CTHREADS}" "olddefconfig" "CROSS_COMPILE=\"${CCACHE} ${UBOOT_COMPILER}\""
+	# bpi, ignore set KCFLAGS for legacy uboot
+        if [[ $BRANCH != legacy ]]; then
+		run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
+			"KCFLAGS=-fdiagnostics-color=always" \
+			pipetty make "${CTHREADS}" "olddefconfig" "CROSS_COMPILE=\"${CCACHE} ${UBOOT_COMPILER}\""
+	else
+		run_host_command_logged CCACHE_BASEDIR="$(pwd)" PATH="${toolchain}:${toolchain2}:${PATH}" \
+			pipetty make "${CTHREADS}" "olddefconfig" "CROSS_COMPILE=\"${CCACHE} ${UBOOT_COMPILER}\""
+	fi
 
 	if [[ "${UBOOT_CONFIGURE:-"no"}" == "yes" ]]; then
 		display_alert "Configuring u-boot" "UBOOT_CONFIGURE=yes; experimental" "warn"
