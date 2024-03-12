@@ -1,0 +1,39 @@
+diff --git a/board/bananapi/bananapi_cm4/bananapi_cm4.c b/board/bananapi/bananapi_cm4/bananapi_cm4.c
+index 4dc1529f10..a7af1d330f 100644
+--- a/board/bananapi/bananapi_cm4/bananapi_cm4.c
++++ b/board/bananapi/bananapi_cm4/bananapi_cm4.c
+@@ -687,7 +687,7 @@ int board_get_panel_type(void)
+ 	addr_r = getenv("loadaddr");
+ 	setenv("filesize", "0");
+ 
+-	sprintf(cmd, "fatload mmc %d:1 %s lcd_env.txt", mmc_dev, addr_r);
++	sprintf(cmd, "load mmc %d:1 %s /boot/lcd_env.txt", mmc_dev, addr_r);
+ 	run_command(cmd, 0);
+ 
+ 	filesize = getenv_ulong("filesize", 16, 0);
+diff --git a/board/bananapi/bananapi_m2s/bananapi_m2s.c b/board/bananapi/bananapi_m2s/bananapi_m2s.c
+index a23b3e523d..c9fbb4a99a 100644
+--- a/board/bananapi/bananapi_m2s/bananapi_m2s.c
++++ b/board/bananapi/bananapi_m2s/bananapi_m2s.c
+@@ -683,7 +683,7 @@ int board_get_panel_type(void)
+ 	addr_r = getenv("loadaddr");
+ 	setenv("filesize", "0");
+ 
+-	sprintf(cmd, "fatload mmc %d:1 %s lcd_env.txt", mmc_dev, addr_r);
++	sprintf(cmd, "load mmc %d:1 %s /boot/lcd_env.txt", mmc_dev, addr_r);
+ 	run_command(cmd, 0);
+ 
+ 	filesize = getenv_ulong("filesize", 16, 0);
+diff --git a/include/configs/bananapi_g12b_common.h b/include/configs/bananapi_g12b_common.h
+index e604873242..7c72993e6d 100755
+--- a/include/configs/bananapi_g12b_common.h
++++ b/include/configs/bananapi_g12b_common.h
+@@ -138,7 +138,7 @@
+             "osd open;"\
+             "osd clear;"\
+             "for n in ${mmc_list}; do "\
+-                "if load mmc ${n} ${loadaddr} /boot-logo.bmp; then "\
++                "if load mmc ${n} ${loadaddr} /boot/boot-logo.bmp; then "\
+                     "bmp display ${loadaddr};"\
+                     "bmp scale;"\
+                 "fi;"\

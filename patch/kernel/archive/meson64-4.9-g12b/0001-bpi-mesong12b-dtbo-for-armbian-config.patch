@@ -1,0 +1,471 @@
+From c2466dcbec1a28df9fa2a9e27f551aab1201c90f Mon Sep 17 00:00:00 2001
+From: August <2819763+Dangku@users.noreply.github.com>
+Date: Mon, 11 Mar 2024 22:04:54 +0800
+Subject: [PATCH] bpi mesong12b dtbo for armbian config
+
+Signed-off-by: August <2819763+Dangku@users.noreply.github.com>
+---
+ arch/arm64/boot/dts/amlogic/Makefile          |  9 ++--
+ arch/arm64/boot/dts/amlogic/overlay/Makefile  | 47 +++++++++++++++++++
+ .../bpi-cm4io-ds3231.dts}                     |  0
+ .../bpi-cm4io-hifi_pcm5102a.dts}              |  0
+ .../bpi-cm4io-hifi_pcm5122.dts}               |  0
+ .../i2c2.dts => overlay/bpi-cm4io-i2c2.dts}   |  0
+ .../bpi-cm4io-i2smic.dts}                     |  0
+ .../bpi-cm4io-i2smic_bpicm4io.dts}            |  0
+ .../bpi-cm4io-os08a10.dts}                    |  0
+ .../bpi-cm4io-otg-device.dts}                 |  0
+ .../bpi-cm4io-otg-host.dts}                   |  0
+ .../bpi-cm4io-pwm_c-beeper.dts}               |  0
+ .../bpi-cm4io-pwm_cd-c.dts}                   |  0
+ .../bpi-cm4io-pwm_cd.dts}                     |  0
+ .../bpi-cm4io-pwm_ef-f.dts}                   |  0
+ .../spi0.dts => overlay/bpi-cm4io-spi0.dts}   |  0
+ .../bpi-cm4io-spi0_flash.dts}                 |  0
+ .../uart2.dts => overlay/bpi-cm4io-uart2.dts} |  0
+ .../bpi-cm4io-waveshare_hdmi35_tp.dts}        |  0
+ .../bpi-cm4io-waveshare_tft24_lcd.dts}        |  0
+ .../bpi-cm4io-waveshare_tft35c_lcd.dts}       |  0
+ .../bpi-cm4io-waveshare_tft35c_rtp.dts}       |  0
+ .../ds3231.dts => overlay/bpi-m2s-ds3231.dts} |  0
+ .../bpi-m2s-hifi_pcm5102a.dts}                |  0
+ .../bpi-m2s-hifi_pcm5122.dts}                 |  0
+ .../m2s/i2c1.dts => overlay/bpi-m2s-i2c1.dts} |  0
+ .../m2s/i2c2.dts => overlay/bpi-m2s-i2c2.dts} |  0
+ .../m2s/i2s.dts => overlay/bpi-m2s-i2s.dts}   |  0
+ .../i2smic.dts => overlay/bpi-m2s-i2smic.dts} |  0
+ .../bpi-m2s-os08a10.dts}                      |  0
+ .../bpi-m2s-otg-device.dts}                   |  0
+ .../bpi-m2s-otg-host.dts}                     |  0
+ .../pdmmic.dts => overlay/bpi-m2s-pdmmic.dts} |  0
+ .../bpi-m2s-pwm_c-beeper.dts}                 |  0
+ .../bpi-m2s-pwm_cd-c.dts}                     |  0
+ .../pwm_cd.dts => overlay/bpi-m2s-pwm_cd.dts} |  0
+ .../bpi-m2s-pwm_ef-f.dts}                     |  0
+ .../pwm_ef.dts => overlay/bpi-m2s-pwm_ef.dts} |  0
+ .../m2s/sdio.dts => overlay/bpi-m2s-sdio.dts} |  0
+ .../m2s/spi0.dts => overlay/bpi-m2s-spi0.dts} |  0
+ .../bpi-m2s-spi0_flash.dts}                   |  0
+ .../uart1.dts => overlay/bpi-m2s-uart1.dts}   |  0
+ .../bpi-m2s-uart1_cts_rts.dts}                |  0
+ .../uart2.dts => overlay/bpi-m2s-uart2.dts}   |  0
+ .../bpi-m2s-waveshare_tft24_lcd.dts}          |  0
+ .../bpi-m2s-waveshare_tft35c_lcd.dts}         |  0
+ .../bpi-m2s-waveshare_tft35c_rtp.dts}         |  0
+ .../bpi-m2s-wifi_bt_rtl8822cs.dts}            |  0
+ arch/arm64/boot/dts/amlogic/overlays/bpi-cm4  |  1 -
+ arch/arm64/boot/dts/amlogic/overlays/bpi-m2s  |  1 -
+ .../boot/dts/amlogic/overlays/cm4io/Makefile  | 23 ---------
+ .../boot/dts/amlogic/overlays/m2s/Makefile    | 26 ----------
+ 52 files changed, 52 insertions(+), 55 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/amlogic/overlay/Makefile
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/ds3231.dts => overlay/bpi-cm4io-ds3231.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/hifi_pcm5102a.dts => overlay/bpi-cm4io-hifi_pcm5102a.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/hifi_pcm5122.dts => overlay/bpi-cm4io-hifi_pcm5122.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/i2c2.dts => overlay/bpi-cm4io-i2c2.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/i2smic.dts => overlay/bpi-cm4io-i2smic.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/i2smic_bpicm4io.dts => overlay/bpi-cm4io-i2smic_bpicm4io.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/os08a10.dts => overlay/bpi-cm4io-os08a10.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/otg-device.dts => overlay/bpi-cm4io-otg-device.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/otg-host.dts => overlay/bpi-cm4io-otg-host.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/pwm_c-beeper.dts => overlay/bpi-cm4io-pwm_c-beeper.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/pwm_cd-c.dts => overlay/bpi-cm4io-pwm_cd-c.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/pwm_cd.dts => overlay/bpi-cm4io-pwm_cd.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/pwm_ef-f.dts => overlay/bpi-cm4io-pwm_ef-f.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/spi0.dts => overlay/bpi-cm4io-spi0.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/spi0_flash.dts => overlay/bpi-cm4io-spi0_flash.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/uart2.dts => overlay/bpi-cm4io-uart2.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/waveshare_hdmi35_tp.dts => overlay/bpi-cm4io-waveshare_hdmi35_tp.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/waveshare_tft24_lcd.dts => overlay/bpi-cm4io-waveshare_tft24_lcd.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/waveshare_tft35c_lcd.dts => overlay/bpi-cm4io-waveshare_tft35c_lcd.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/cm4io/waveshare_tft35c_rtp.dts => overlay/bpi-cm4io-waveshare_tft35c_rtp.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/ds3231.dts => overlay/bpi-m2s-ds3231.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/hifi_pcm5102a.dts => overlay/bpi-m2s-hifi_pcm5102a.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/hifi_pcm5122.dts => overlay/bpi-m2s-hifi_pcm5122.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/i2c1.dts => overlay/bpi-m2s-i2c1.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/i2c2.dts => overlay/bpi-m2s-i2c2.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/i2s.dts => overlay/bpi-m2s-i2s.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/i2smic.dts => overlay/bpi-m2s-i2smic.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/os08a10.dts => overlay/bpi-m2s-os08a10.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/otg-device.dts => overlay/bpi-m2s-otg-device.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/otg-host.dts => overlay/bpi-m2s-otg-host.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/pdmmic.dts => overlay/bpi-m2s-pdmmic.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/pwm_c-beeper.dts => overlay/bpi-m2s-pwm_c-beeper.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/pwm_cd-c.dts => overlay/bpi-m2s-pwm_cd-c.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/pwm_cd.dts => overlay/bpi-m2s-pwm_cd.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/pwm_ef-f.dts => overlay/bpi-m2s-pwm_ef-f.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/pwm_ef.dts => overlay/bpi-m2s-pwm_ef.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/sdio.dts => overlay/bpi-m2s-sdio.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/spi0.dts => overlay/bpi-m2s-spi0.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/spi0_flash.dts => overlay/bpi-m2s-spi0_flash.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/uart1.dts => overlay/bpi-m2s-uart1.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/uart1_cts_rts.dts => overlay/bpi-m2s-uart1_cts_rts.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/uart2.dts => overlay/bpi-m2s-uart2.dts} (100%)
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/waveshare_tft24_lcd.dts => overlay/bpi-m2s-waveshare_tft24_lcd.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/waveshare_tft35c_lcd.dts => overlay/bpi-m2s-waveshare_tft35c_lcd.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/waveshare_tft35c_rtp.dts => overlay/bpi-m2s-waveshare_tft35c_rtp.dts} (100%)
+ mode change 100755 => 100644
+ rename arch/arm64/boot/dts/amlogic/{overlays/m2s/wifi_bt_rtl8822cs.dts => overlay/bpi-m2s-wifi_bt_rtl8822cs.dts} (100%)
+ delete mode 120000 arch/arm64/boot/dts/amlogic/overlays/bpi-cm4
+ delete mode 120000 arch/arm64/boot/dts/amlogic/overlays/bpi-m2s
+ delete mode 100644 arch/arm64/boot/dts/amlogic/overlays/cm4io/Makefile
+ delete mode 100644 arch/arm64/boot/dts/amlogic/overlays/m2s/Makefile
+
+diff --git a/arch/arm64/boot/dts/amlogic/Makefile b/arch/arm64/boot/dts/amlogic/Makefile
+index 4656976e08fe..6fcba2528c7f 100644
+--- a/arch/arm64/boot/dts/amlogic/Makefile
++++ b/arch/arm64/boot/dts/amlogic/Makefile
+@@ -3,8 +3,9 @@ dtb-$(CONFIG_ARCH_BANANAPI_M2S) += bananapi_m2s.dtb \
+ dtb-$(CONFIG_ARCH_BANANAPI_CM4) += bananapi_cm4io.dtb \
+ 	raspberrypi_cm4io.dtb
+ 
+-always		:= $(dtb-y)
+-subdir-y	:= $(dts-dirs)
+-subdir-$(CONFIG_ARCH_BANANAPI_M2S) += overlays/m2s
+-subdir-$(CONFIG_ARCH_BANANAPI_CM4) += overlays/cm4io
++always          := $(dtb-y)
++subdir-y        := $(dts-dirs)
++
++subdir-y        += overlay
++
+ clean-files	:= *.dtb *.dtbo
+diff --git a/arch/arm64/boot/dts/amlogic/overlay/Makefile b/arch/arm64/boot/dts/amlogic/overlay/Makefile
+new file mode 100644
+index 000000000000..ba85570b172c
+--- /dev/null
++++ b/arch/arm64/boot/dts/amlogic/overlay/Makefile
+@@ -0,0 +1,47 @@
++dtbo-$(CONFIG_ARCH_BANANAPI_M2S) += bpi-m2s-i2c1.dtbo \
++	bpi-m2s-i2c2.dtbo \
++	bpi-m2s-i2s.dtbo \
++	bpi-m2s-os08a10.dtbo \
++	bpi-m2s-pwm_c-beeper.dtbo \
++	bpi-m2s-pwm_cd-c.dtbo \
++	bpi-m2s-pwm_cd.dtbo \
++	bpi-m2s-pwm_ef.dtbo \
++	bpi-m2s-pwm_ef-f.dtbo \
++	bpi-m2s-sdio.dtbo \
++	bpi-m2s-spi0.dtbo \
++	bpi-m2s-spi0_flash.dtbo \
++	bpi-m2s-uart1_cts_rts.dtbo \
++	bpi-m2s-uart1.dtbo \
++	bpi-m2s-uart2.dtbo \
++	bpi-m2s-wifi_bt_rtl8822cs.dtbo \
++	bpi-m2s-waveshare_tft35c_lcd.dtbo \
++	bpi-m2s-waveshare_tft24_lcd.dtbo \
++	bpi-m2s-hifi_pcm5122.dtbo \
++	bpi-m2s-i2smic.dtbo \
++	bpi-m2s-pdmmic.dtbo \
++	bpi-m2s-otg-device.dtbo \
++	bpi-m2s-otg-host.dtbo
++
++dtbo-$(CONFIG_ARCH_BANANAPI_CM4) += bpi-cm4io-i2c2.dtbo \
++	bpi-cm4io-uart2.dtbo \
++	bpi-cm4io-spi0.dtbo \
++	bpi-cm4io-spi0_flash.dtbo \
++	bpi-cm4io-os08a10.dtbo \
++	bpi-cm4io-pwm_cd.dtbo \
++	bpi-cm4io-pwm_cd-c.dtbo \
++	bpi-cm4io-pwm_c-beeper.dtbo \
++	bpi-cm4io-pwm_ef-f.dtbo \
++	bpi-cm4io-i2smic.dtbo \
++	bpi-cm4io-i2smic_bpicm4io.dtbo \
++	bpi-cm4io-ds3231.dtbo \
++	bpi-cm4io-hifi_pcm5102a.dtbo \
++	bpi-cm4io-hifi_pcm5122.dtbo \
++	bpi-cm4io-waveshare_tft24_lcd.dtbo \
++	bpi-cm4io-waveshare_tft35c_lcd.dtbo \
++	bpi-cm4io-waveshare_tft35c_rtp.dtbo \
++	bpi-cm4io-waveshare_hdmi35_tp.dtbo \
++	bpi-cm4io-otg-device.dtbo \
++	bpi-cm4io-otg-host.dtbo
++
++targets += $(dtbo-y)
++always  := $(dtbo-y)
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/ds3231.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-ds3231.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/ds3231.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-ds3231.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/hifi_pcm5102a.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-hifi_pcm5102a.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/hifi_pcm5102a.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-hifi_pcm5102a.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/hifi_pcm5122.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-hifi_pcm5122.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/hifi_pcm5122.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-hifi_pcm5122.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/i2c2.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-i2c2.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/i2c2.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-i2c2.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/i2smic.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-i2smic.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/i2smic.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-i2smic.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/i2smic_bpicm4io.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-i2smic_bpicm4io.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/i2smic_bpicm4io.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-i2smic_bpicm4io.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/os08a10.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-os08a10.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/os08a10.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-os08a10.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/otg-device.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-otg-device.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/otg-device.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-otg-device.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/otg-host.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-otg-host.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/otg-host.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-otg-host.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_c-beeper.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_c-beeper.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_c-beeper.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_c-beeper.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_cd-c.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_cd-c.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_cd-c.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_cd-c.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_cd.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_cd.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_cd.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_cd.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_ef-f.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_ef-f.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/pwm_ef-f.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-pwm_ef-f.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/spi0.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-spi0.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/spi0.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-spi0.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/spi0_flash.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-spi0_flash.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/spi0_flash.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-spi0_flash.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/uart2.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-uart2.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/uart2.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-uart2.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_hdmi35_tp.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_hdmi35_tp.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_hdmi35_tp.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_hdmi35_tp.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_tft24_lcd.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_tft24_lcd.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_tft24_lcd.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_tft24_lcd.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_tft35c_lcd.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_tft35c_lcd.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_tft35c_lcd.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_tft35c_lcd.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_tft35c_rtp.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_tft35c_rtp.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/cm4io/waveshare_tft35c_rtp.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-cm4io-waveshare_tft35c_rtp.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/ds3231.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-ds3231.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/ds3231.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-ds3231.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/hifi_pcm5102a.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-hifi_pcm5102a.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/hifi_pcm5102a.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-hifi_pcm5102a.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/hifi_pcm5122.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-hifi_pcm5122.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/hifi_pcm5122.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-hifi_pcm5122.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/i2c1.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2c1.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/i2c1.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2c1.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/i2c2.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2c2.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/i2c2.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2c2.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/i2s.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2s.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/i2s.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2s.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/i2smic.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2smic.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/i2smic.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-i2smic.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/os08a10.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-os08a10.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/os08a10.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-os08a10.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/otg-device.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-otg-device.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/otg-device.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-otg-device.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/otg-host.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-otg-host.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/otg-host.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-otg-host.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/pdmmic.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pdmmic.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/pdmmic.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pdmmic.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_c-beeper.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_c-beeper.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_c-beeper.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_c-beeper.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_cd-c.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_cd-c.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_cd-c.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_cd-c.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_cd.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_cd.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_cd.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_cd.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_ef-f.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_ef-f.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_ef-f.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_ef-f.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_ef.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_ef.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/pwm_ef.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-pwm_ef.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/sdio.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-sdio.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/sdio.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-sdio.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/spi0.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-spi0.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/spi0.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-spi0.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/spi0_flash.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-spi0_flash.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/spi0_flash.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-spi0_flash.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/uart1.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-uart1.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/uart1.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-uart1.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/uart1_cts_rts.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-uart1_cts_rts.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/uart1_cts_rts.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-uart1_cts_rts.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/uart2.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-uart2.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/uart2.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-uart2.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/waveshare_tft24_lcd.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-waveshare_tft24_lcd.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/waveshare_tft24_lcd.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-waveshare_tft24_lcd.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/waveshare_tft35c_lcd.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-waveshare_tft35c_lcd.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/waveshare_tft35c_lcd.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-waveshare_tft35c_lcd.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/waveshare_tft35c_rtp.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-waveshare_tft35c_rtp.dts
+old mode 100755
+new mode 100644
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/waveshare_tft35c_rtp.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-waveshare_tft35c_rtp.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/wifi_bt_rtl8822cs.dts b/arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-wifi_bt_rtl8822cs.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/amlogic/overlays/m2s/wifi_bt_rtl8822cs.dts
+rename to arch/arm64/boot/dts/amlogic/overlay/bpi-m2s-wifi_bt_rtl8822cs.dts
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/bpi-cm4 b/arch/arm64/boot/dts/amlogic/overlays/bpi-cm4
+deleted file mode 120000
+index 9d6d80764698..000000000000
+--- a/arch/arm64/boot/dts/amlogic/overlays/bpi-cm4
++++ /dev/null
+@@ -1 +0,0 @@
+-cm4io
+\ No newline at end of file
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/bpi-m2s b/arch/arm64/boot/dts/amlogic/overlays/bpi-m2s
+deleted file mode 120000
+index 322db486a728..000000000000
+--- a/arch/arm64/boot/dts/amlogic/overlays/bpi-m2s
++++ /dev/null
+@@ -1 +0,0 @@
+-m2s
+\ No newline at end of file
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/cm4io/Makefile b/arch/arm64/boot/dts/amlogic/overlays/cm4io/Makefile
+deleted file mode 100644
+index b8043020ca09..000000000000
+--- a/arch/arm64/boot/dts/amlogic/overlays/cm4io/Makefile
++++ /dev/null
+@@ -1,23 +0,0 @@
+-dtbo-y += i2c2.dtbo \
+-	uart2.dtbo \
+-	spi0.dtbo \
+-	spi0_flash.dtbo \
+-	os08a10.dtbo \
+-	pwm_cd.dtbo \
+-	pwm_cd-c.dtbo \
+-	pwm_c-beeper.dtbo \
+-	pwm_ef-f.dtbo \
+-	i2smic.dtbo \
+-	i2smic_bpicm4io.dtbo \
+-	ds3231.dtbo \
+-	hifi_pcm5102a.dtbo \
+-	hifi_pcm5122.dtbo \
+-	waveshare_tft24_lcd.dtbo \
+-	waveshare_tft35c_lcd.dtbo \
+-	waveshare_tft35c_rtp.dtbo \
+-	waveshare_hdmi35_tp.dtbo \
+-	otg-device.dtbo \
+-	otg-host.dtbo
+-
+-targets += $(dtbo-y)
+-always  := $(dtbo-y)
+diff --git a/arch/arm64/boot/dts/amlogic/overlays/m2s/Makefile b/arch/arm64/boot/dts/amlogic/overlays/m2s/Makefile
+deleted file mode 100644
+index 2be953e9fc47..000000000000
+--- a/arch/arm64/boot/dts/amlogic/overlays/m2s/Makefile
++++ /dev/null
+@@ -1,26 +0,0 @@
+-dtbo-y += i2c1.dtbo \
+-	i2c2.dtbo \
+-	i2s.dtbo \
+-	os08a10.dtbo \
+-	pwm_c-beeper.dtbo \
+-	pwm_cd-c.dtbo \
+-	pwm_cd.dtbo \
+-	pwm_ef.dtbo \
+-	pwm_ef-f.dtbo \
+-	sdio.dtbo \
+-	spi0.dtbo \
+-	spi0_flash.dtbo \
+-	uart1_cts_rts.dtbo \
+-	uart1.dtbo \
+-	uart2.dtbo \
+-	wifi_bt_rtl8822cs.dtbo \
+-	waveshare_tft35c_lcd.dtbo \
+-	waveshare_tft24_lcd.dtbo \
+-	hifi_pcm5122.dtbo \
+-	i2smic.dtbo \
+-	pdmmic.dtbo \
+-	otg-device.dtbo \
+-	otg-host.dtbo
+-
+-targets += $(dtbo-y)
+-always  := $(dtbo-y)
+-- 
+2.25.1
+

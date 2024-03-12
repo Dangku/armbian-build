@@ -39,16 +39,12 @@ function write_uboot_platform()
 }
 
 family_tweaks_bsp() {
-	if [[ ${DESKTOP_ENVIRONMENT} == "gnome" ]]; then
-		return 0;
-	fi
-
 	mkdir -p $destination/etc/udev/rules.d
 	mkdir -p $destination/usr/local/bin
 
 	mkdir -p "$destination"/etc/X11/xorg.conf.d
 	case "${BOARD}" in
-		"bpi-m5")
+		"bpi-m5"|"bpi-m2s")
 	cat <<-EOF > "$destination"/etc/X11/xorg.conf
 	Section "Device"
 	    Identifier  "DRM Graphics Acclerated"
