@@ -12,14 +12,37 @@ ARCH=arm64
 SERIALCON=ttyS0
 SRC_LOADADDR='LOADADDR=0x1080000'
 
-function fetch_sources_tools__libreelec_amlogic_fip_blob_update() {
-	fetch_from_repo "https://github.com/Dangku/amlogic-boot-fip" "amlogic-boot-fip" "branch:master"
-}
-
 # this family does not need it
 ATF_COMPILE="no"
 
+function fetch_sources_tools__meson_bpi_fip() {
+	fetch_from_repo "https://github.com/Dangku/amlogic-boot-fip" "amlogic-boot-fip" "branch:master"
+}
+
+function add_host_dependencies__meson_bpi_hostdeb() {
+	display_alert "$BOARD" "adding legacy build deps" "info"
+
+        declare -g EXTRA_BUILD_DEPS="${EXTRA_BUILD_DEPS} lib32stdc++6 zlib1g:i386 libc6-dev-i386 lib32ncurses5-dev"
+}
+
+function extension_finish_config__meson_bpi_kernelconfig() {
+	display_alert "$BOARD" "Setting kernel config" "info"
+
+        declare -g LINUXSOURCEDIR="linux-kernel-worktree/${KERNELDIR}"
+}
+
+function write_uboot_platform()
+{
+	display_alert "$BOARD" "Writing uboot to image" "info"
+
+	dd if=$1/u-boot.bin of=$2 bs=512 seek=1 conv=fsync > /dev/null 2>&1
+}
+
 family_tweaks_bsp() {
+	if [[ ${DESKTOP_ENVIRONMENT} == "gnome" ]]; then
+		return 0;
+	fi
+
 	mkdir -p $destination/etc/udev/rules.d
 	mkdir -p $destination/usr/local/bin
 

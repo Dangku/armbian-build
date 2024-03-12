@@ -1,5 +1,6 @@
 [Unit]
 Description=Attach /dev/ttyS1 to BlueZ stack
+ConditionPathExists=/dev/ttyS1
 Wants=bluetooth.service
 Before=bluetooth.service
 After=dev-ttyS1.device
