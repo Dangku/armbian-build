@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Only for desktop
-if ! which lightdm; then
+if ! sudo which lightdm; then
 	exit
 fi
 
-source /etc/lsb-release
+source /etc/os-release
 
 PIPE="/tmp/hdmi_resolution_pipe"
 resolutions=()
@@ -16,36 +16,39 @@ if [[ ! -p "${PIPE}" ]]; then
 	mkfifo "${PIPE}"
 fi
 
-chmod 777 ${PIPE}
+sudo chmod 777 ${PIPE}
 
 # Established timings supported
-if [ "$DISTRIB_CODENAME" == "focal" ]; then
-	edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "E:" > $tempfile
-	while read line
-	do
-		resolutions+=(`echo $line | grep -v i | awk -F ":" '{print $2}' | awk '{print $1}'`)
-	done < $tempfile
+case "${VERSION_CODENAME}" in
+	"focal"|"buster")
+		edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "E:" > $tempfile
+		while read line
+		do
+			resolutions+=(`echo $line | grep -v i | awk -F ":" '{print $2}' | awk '{print $1}'`)
+		done < $tempfile
 
-	# Standard timings supported
-	edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "S:" > $tempfile
-	while read line
-	do
-		resolutions+=(`echo $line | grep -v i | awk -F ":" '{print $2}' | awk '{print $1}'`)
-	done < $tempfile
+		# Standard timings supported
+		edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "S:" > $tempfile
+		while read line
+		do
+			resolutions+=(`echo $line | grep -v i | awk -F ":" '{print $2}' | awk '{print $1}'`)
+		done < $tempfile
 
-	# CEA modes
-	edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "    VIC" | grep -v HDMI > $tempfile
-	while read line
-	do
-		resolutions+=(`echo $line | grep -v i | awk '{print $3}'`)
-	done < $tempfile
-elif [ "$DISTRIB_CODENAME" == "jammy" ]; then
-	edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "S:" > $tempfile
-	while read line
-	do
-		resolutions+=(`echo $line | grep -v i | awk -F ":" '{print $3}' | awk '{print $1}'`)
-	done < $tempfile
-fi
+		# CEA modes
+		edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "    VIC" | grep -v HDMI > $tempfile
+		while read line
+		do
+			resolutions+=(`echo $line | grep -v i | awk '{print $3}'`)
+		done < $tempfile
+		;;
+	"jammy")
+		edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "S:" > $tempfile
+		while read line
+		do
+			resolutions+=(`echo $line | grep -v i | awk -F ":" '{print $3}' | awk '{print $1}'`)
+		done < $tempfile
+		;;
+esac
 
 ##################
 resolutions=(`echo ${resolutions[@]} | tr 'A-Z' 'a-z' | sed s/@/p/g`)
@@ -60,7 +63,7 @@ res=$(yad --entry "${resolutions[@]}" \
 	--entry-text=$current_resolution \
 	--entry-label 'Resolution' \
 	--title 'HDMI Resolution Setting' \
-	--width=300 \
+	--width=600 \
 	--height=50 \
 	--window-icon=/usr/share/icons/armbian/hdmi_resolution.png)
 
@@ -71,7 +74,7 @@ fi
 zenity --question --text 'Change the resolution will logout your system, please save your files!' \
 	--title 'Warning' \
 	--window-icon /usr/share/icons/armbian/warning.png \
-	--width=350 \
+	--width=600 \
 	--height=50
 
 if [ $? -ne 0 ]; then
