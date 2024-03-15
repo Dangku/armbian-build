@@ -20,7 +20,7 @@ function fetch_sources_tools__meson_bpi_fip() {
 }
 
 function add_host_dependencies__meson_bpi_hostdeb() {
-	display_alert "$BOARD" "adding legacy build deps" "info"
+	display_alert "$BOARD" "adding legacy build host deps" "info"
 
         declare -g EXTRA_BUILD_DEPS="${EXTRA_BUILD_DEPS} lib32stdc++6 zlib1g:i386 libc6-dev-i386 lib32ncurses5-dev"
 }
@@ -47,16 +47,9 @@ family_tweaks_bsp() {
 		"bpi-m5"|"bpi-m2s")
 	cat <<-EOF > "$destination"/etc/X11/xorg.conf
 	Section "Device"
-	    Identifier  "DRM Graphics Acclerated"
+	    Identifier  "Meson Fbdev"
 	    
-	    ## Use modesetting and glamor
-	        Driver      "modesetting"
-	        Option      "AccelMethod"    "glamor"     ### "glamor" to enable 3D acceleration, "none" to disable.
-	        Option      "DRI"            "2"
-	        Option      "Dri2Vsync"      "true"
-	        Option      "TripleBuffer"   "True"
-	    ## End glamor configuration
-	    
+	    Driver "fbdev"
 	EndSection
        
 	Section "Screen"
@@ -68,4 +61,54 @@ family_tweaks_bsp() {
 	EOF
         ;;
 	esac
+}
+
+function custom_apt_repo__bpi_release_apt_list()
+{
+	display_alert "${BOARD}" "Restoring apt sources.list" "info"
+
+	# restore apt sources.list
+	if [[ "${DOWNLOAD_MIRROR}" == "china" && "${BUILD_TYPE}" == "release" ]]; then
+		DEBIAN_MIRROR='deb.debian.org/debian'
+		DEBIAN_SECURTY='deb.debian.org/debian-security/'
+		UBUNTU_MIRROR='ports.ubuntu.com/ubuntu-ports'
+		ARMBIAN_MIRROR="apt.armbian.com"
+
+		case ${RELEASE} in
+			buster)
+				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list
+					deb http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free
+
+					deb http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free
+
+					deb http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free
+
+					deb http://${DEBIAN_SECURTY} ${RELEASE}/updates main contrib non-free
+					#deb-src http://${DEBIAN_SECURTY} ${RELEASE}/updates main contrib non-free
+				EOF
+				;;
+
+			focal)
+				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list
+					deb http://${UBUNTU_MIRROR} ${RELEASE} main restricted universe multiverse
+					#deb-src http://${UBUNTU_MIRROR} ${RELEASE} main restricted universe multiverse
+					deb http://${UBUNTU_MIRROR} ${RELEASE}-security main restricted universe multiverse
+					#deb-src http://${UBUNTU_MIRROR} ${RELEASE}-security main restricted universe multiverse
+					deb http://${UBUNTU_MIRROR} ${RELEASE}-updates main restricted universe multiverse
+					#deb-src http://${UBUNTU_MIRROR} ${RELEASE}-updates main restricted universe multiverse
+					deb http://${UBUNTU_MIRROR} ${RELEASE}-backports main restricted universe multiverse
+					#deb-src http://${UBUNTU_MIRROR} ${RELEASE}-backports main restricted universe multiverse
+				EOF
+				;;
+		esac
+
+		# no apt mirror for buster and focal
+		#cat <<- EOF > "${SDCARD}"/etc/apt/sources.list.d/armbian.list
+		#	deb http://${ARMBIAN_MIRROR} $RELEASE main ${RELEASE}-utils ${RELEASE}-desktop
+		#EOF
+
+	fi
 }
