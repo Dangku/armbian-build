@@ -75,7 +75,7 @@ function custom_apt_repo__bpi_release_apt_list()
 		ARMBIAN_MIRROR="apt.armbian.com"
 
 		case ${RELEASE} in
-			buster)
+			"buster")
 				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list
 					deb http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free
 					#deb-src http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free
@@ -91,7 +91,23 @@ function custom_apt_repo__bpi_release_apt_list()
 				EOF
 				;;
 
-			focal)
+			"bullseye")
+				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list
+					deb http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free
+
+					deb http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free
+
+					deb http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free
+
+					deb http://${DEBIAN_SECURTY} ${RELEASE}-security main contrib non-free
+					#deb-src http://${DEBIAN_SECURTY} ${RELEASE}-security main contrib non-free
+				EOF
+				;;
+
+			"focal"|"jammy")
 				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list
 					deb http://${UBUNTU_MIRROR} ${RELEASE} main restricted universe multiverse
 					#deb-src http://${UBUNTU_MIRROR} ${RELEASE} main restricted universe multiverse
@@ -105,10 +121,14 @@ function custom_apt_repo__bpi_release_apt_list()
 				;;
 		esac
 
-		# no apt mirror for buster and focal
-		#cat <<- EOF > "${SDCARD}"/etc/apt/sources.list.d/armbian.list
-		#	deb http://${ARMBIAN_MIRROR} $RELEASE main ${RELEASE}-utils ${RELEASE}-desktop
-		#EOF
+		if [[ "${SKIP_ARMBIAN_REPO}" != "yes" ]]; then
+			# no apt mirror for buster and focal
+			if [[ "${RELEASE}" != "buster" && "${RELEASE}" != "focal" ]]; then
+				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list.d/armbian.list
+					deb http://${ARMBIAN_MIRROR} $RELEASE main ${RELEASE}-utils ${RELEASE}-desktop
+				EOF
+			fi
+		fi
 
 	fi
 }

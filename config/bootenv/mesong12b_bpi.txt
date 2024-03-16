@@ -74,3 +74,4 @@ fb_rotate=0
 
 verbosity=8
 console=both
+extraargs=

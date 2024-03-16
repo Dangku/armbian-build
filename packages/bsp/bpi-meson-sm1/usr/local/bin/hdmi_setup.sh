@@ -20,7 +20,7 @@ sudo chmod 777 ${PIPE}
 
 # Established timings supported
 case "${VERSION_CODENAME}" in
-	"focal"|"buster")
+	"focal"|"buster"|"bullseye"|"jammy")
 		edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "E:" > $tempfile
 		while read line
 		do
@@ -39,13 +39,6 @@ case "${VERSION_CODENAME}" in
 		while read line
 		do
 			resolutions+=(`echo $line | grep -v i | awk '{print $3}'`)
-		done < $tempfile
-		;;
-	"jammy")
-		edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "S:" > $tempfile
-		while read line
-		do
-			resolutions+=(`echo $line | grep -v i | awk -F ":" '{print $3}' | awk '{print $1}'`)
 		done < $tempfile
 		;;
 esac

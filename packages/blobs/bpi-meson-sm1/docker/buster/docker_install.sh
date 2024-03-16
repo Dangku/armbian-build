@@ -2,7 +2,6 @@
 
 # fix buster docker.service start fail
 sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-sudo sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 
 # uninstall old version
 for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
