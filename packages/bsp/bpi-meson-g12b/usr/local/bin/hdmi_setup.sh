@@ -20,7 +20,7 @@ sudo chmod 777 ${PIPE}
 
 # Established timings supported
 case "${VERSION_CODENAME}" in
-	"focal"|"buster"|"bullseye"|"jammy")
+	"focal"|"buster"|"bullseye"|"jammy"|"bookworm")
 		edid-decode < /sys/class/amhdmitx/amhdmitx0/rawedid | grep "E:" > $tempfile
 		while read line
 		do

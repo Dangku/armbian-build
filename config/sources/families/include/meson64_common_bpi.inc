@@ -107,6 +107,22 @@ function custom_apt_repo__bpi_release_apt_list()
 				EOF
 				;;
 
+			"bookworm")
+				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list
+					deb http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free non-free-firmware
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE} main contrib non-free non-free-firmware
+
+					deb http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free non-free-firmware
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free non-free-firmware
+
+					deb http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free non-free-firmware
+					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free non-free-firmware
+
+					deb http://${DEBIAN_SECURTY} ${RELEASE}-security main contrib non-free non-free-firmware
+					#deb-src http://${DEBIAN_SECURTY} ${RELEASE}-security main contrib non-free non-free-firmware
+				EOF
+				;;
+
 			"focal"|"jammy")
 				cat <<- EOF > "${SDCARD}"/etc/apt/sources.list
 					deb http://${UBUNTU_MIRROR} ${RELEASE} main restricted universe multiverse
