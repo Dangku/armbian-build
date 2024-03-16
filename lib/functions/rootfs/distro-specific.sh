@@ -208,6 +208,8 @@ function create_sources_list_and_deploy_repo_key() {
 		echo "deb ${SIGNED_BY}https://mirrors.tuna.tsinghua.edu.cn/armbian $RELEASE ${components[*]}" > "${basedir}"/etc/apt/sources.list.d/armbian.list
 	elif [[ $DOWNLOAD_MIRROR == "bfsu" ]]; then
 		echo "deb ${SIGNED_BY}http://mirrors.bfsu.edu.cn/armbian $RELEASE ${components[*]}" > "${basedir}"/etc/apt/sources.list.d/armbian.list
+	elif [[ $DOWNLOAD_MIRROR == "ustc" ]]; then
+		echo "deb ${SIGNED_BY}http://mirrors.ustc.edu.cn/armbian $RELEASE ${components[*]}" > "${basedir}"/etc/apt/sources.list.d/armbian.list
 	else
 		echo "deb ${SIGNED_BY}http://$([[ $BETA == yes ]] && echo "beta" || echo "apt").armbian.com $RELEASE ${components[*]}" > "${basedir}"/etc/apt/sources.list.d/armbian.list
 	fi

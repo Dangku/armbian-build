@@ -329,6 +329,14 @@ function do_extra_configuration() {
 			UBUNTU_MIRROR='mirrors.bfsu.edu.cn/ubuntu-ports/'
 	fi
 
+	if [[ $DOWNLOAD_MIRROR == "ustc" ]]; then
+		DEBIAN_MIRROR='mirrors.ustc.edu.cn/debian'
+		DEBIAN_SECURTY='mirrors.ustc.edu.cn/debian-security'
+		[[ "${ARCH}" == "amd64" ]] &&
+			UBUNTU_MIRROR='mirrors.ustc.edu.cn/ubuntu/' ||
+			UBUNTU_MIRROR='mirrors.ustc.edu.cn/ubuntu-ports/'
+	fi
+
 	if [[ "${ARCH}" == "amd64" ]]; then
 		UBUNTU_MIRROR='archive.ubuntu.com/ubuntu' # ports are only for non-amd64, of course.
 		if [[ -n ${CUSTOM_UBUNTU_MIRROR} ]]; then # ubuntu redirector doesn't work well on amd64
