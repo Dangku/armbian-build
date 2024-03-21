@@ -14,8 +14,8 @@ do
 	sleep 1
 	killall -0 pppd
 done
-
+	
 if [ $? -ne 0 ]
 then
 	killall -9 pppd
-fi
+fi	
