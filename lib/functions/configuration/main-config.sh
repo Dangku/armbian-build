@@ -308,6 +308,7 @@ function do_extra_configuration() {
 	fi
 
 	DEBIAN_MIRROR='deb.debian.org/debian'
+	DEBIAN_OLD_MIRROR='archive.debian.org/debian'
 	DEBIAN_SECURTY='security.debian.org/'
 	[[ "${ARCH}" == "amd64" ]] &&
 		UBUNTU_MIRROR='archive.ubuntu.com/ubuntu/' ||
