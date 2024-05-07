@@ -68,8 +68,9 @@ function custom_apt_repo__bpi_release_apt_list()
 	display_alert "${BOARD}" "Restoring apt sources.list" "info"
 
 	# restore apt sources.list
-	if [[ "${DOWNLOAD_MIRROR}" == "china" && "${BUILD_TYPE}" == "release" ]]; then
+	if [[ "${DOWNLOAD_MIRROR}" == "ustc" && "${BUILD_TYPE}" == "release" ]]; then
 		DEBIAN_MIRROR='deb.debian.org/debian'
+		DEBIAN_OLD_MIRROR='archive.debian.org/debian'
 		DEBIAN_SECURTY='deb.debian.org/debian-security/'
 		UBUNTU_MIRROR='ports.ubuntu.com/ubuntu-ports'
 		ARMBIAN_MIRROR="apt.armbian.com"
@@ -83,8 +84,8 @@ function custom_apt_repo__bpi_release_apt_list()
 					deb http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free
 					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-updates main contrib non-free
 
-					deb http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free
-					#deb-src http://${DEBIAN_MIRROR} ${RELEASE}-backports main contrib non-free
+					deb http://${DEBIAN_OLD_MIRROR} ${RELEASE}-backports main contrib non-free
+					#deb-src http://${DEBIAN_OLD_MIRROR} ${RELEASE}-backports main contrib non-free
 
 					deb http://${DEBIAN_SECURTY} ${RELEASE}/updates main contrib non-free
 					#deb-src http://${DEBIAN_SECURTY} ${RELEASE}/updates main contrib non-free
