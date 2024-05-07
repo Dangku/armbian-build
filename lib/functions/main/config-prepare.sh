@@ -270,6 +270,7 @@ function config_post_main() {
 			elif [[ "${KERNEL_MAJOR_MINOR_MAJOR}" -eq 4 && "${KERNEL_MAJOR_MINOR_MINOR}" -ge 19 ]]; then
 				declare -g KERNEL_MAJOR=4 # We support 4.19+ (less than 5.0) is supported
 			elif [[ "${KERNEL_MAJOR_MINOR_MAJOR}" -eq 4 && "${KERNEL_MAJOR_MINOR_MINOR}" -ge 4 ]]; then
+				declare -g KERNEL_HAS_WORKING_HEADERS="yes"
 				declare -g KERNEL_MAJOR=4 # We support 4.x from 4.4
 			else
 				# If you think you can patch packaging to support this, you're probably right. Is _worth_ it though?
