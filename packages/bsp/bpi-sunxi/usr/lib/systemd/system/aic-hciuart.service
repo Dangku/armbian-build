@@ -1,0 +1,14 @@
+[Unit]
+Description=Attach /dev/ttyAS1 to BlueZ stack
+Wants=bluetooth.service
+Before=bluetooth.service
+After=dev-ttyAS1.device modprobe@.service
+
+[Service]
+Type=simple
+ExecStartPre=/usr/sbin/rfkill unblock bluetooth
+ExecStart=/usr/local/bin/aic-hciuart
+ExecStopPost=/usr/sbin/rfkill block bluetooth
+
+[Install]
+WantedBy=multi-user.target

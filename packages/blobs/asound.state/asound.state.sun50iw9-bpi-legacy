@@ -1,0 +1,153 @@
+state.audiocodec {
+	control.1 {
+		iface MIXER
+		name 'tx hub mode'
+		value Off
+		comment {
+			access 'read write'
+			type ENUMERATED
+			count 1
+			item.0 Off
+			item.1 On
+		}
+	}
+	control.2 {
+		iface MIXER
+		name 'digital volume'
+		value 63
+		comment {
+			access 'read write'
+			type INTEGER
+			count 1
+			range '0 - 63'
+			dbmin -9999999
+			dbmax 4121460
+			dbvalue.0 4121460
+		}
+	}
+	control.3 {
+		iface MIXER
+		name 'lineout volume'
+		value 31
+		comment {
+			access 'read write'
+			type INTEGER
+			count 1
+			range '0 - 31'
+			dbmin -9999999
+			dbmax 150
+			dbvalue.0 150
+		}
+	}
+	control.4 {
+		iface MIXER
+		name 'LINEOUT Switch'
+		value true
+		comment {
+			access 'read write'
+			type BOOLEAN
+			count 1
+		}
+	}
+	control.5 {
+		iface MIXER
+		name 'OutputL Mixer DACL Switch'
+		value true
+		comment {
+			access 'read write'
+			type BOOLEAN
+			count 1
+		}
+	}
+	control.6 {
+		iface MIXER
+		name 'OutputL Mixer DACR Switch'
+		value false
+		comment {
+			access 'read write'
+			type BOOLEAN
+			count 1
+		}
+	}
+	control.7 {
+		iface MIXER
+		name 'OutputR Mixer DACL Switch'
+		value true
+		comment {
+			access 'read write'
+			type BOOLEAN
+			count 1
+		}
+	}
+	control.8 {
+		iface MIXER
+		name 'OutputR Mixer DACR Switch'
+		value false
+		comment {
+			access 'read write'
+			type BOOLEAN
+			count 1
+		}
+	}
+	control.9 {
+		iface MIXER
+		name 'LINEOUTL src LR'
+		value Off
+		comment {
+			access 'read write'
+			type ENUMERATED
+			count 1
+			item.0 Off
+			item.1 On
+		}
+	}
+	control.10 {
+		iface MIXER
+		name 'LINEOUTR src LR'
+		value Off
+		comment {
+			access 'read write'
+			type ENUMERATED
+			count 1
+			item.0 Off
+			item.1 On
+		}
+	}
+}
+state.ahubhdmi {
+	control.1 {
+		iface MIXER
+		name 'audio data format'
+		value PCM
+		comment {
+			access 'read write'
+			type ENUMERATED
+			count 1
+			item.0 NULL
+			item.1 PCM
+			item.2 AC3
+			item.3 MPEG1
+			item.4 MP3
+			item.5 MPEG2
+			item.6 AAC
+			item.7 DTS
+			item.8 ATRAC
+			item.9 ONE_BIT_AUDIO
+			item.10 DOLBY_DIGITAL_PLUS
+			item.11 DTS_HD
+			item.12 MAT
+			item.13 DST
+			item.14 WMAPRO
+		}
+	}
+	control.2 {
+		iface MIXER
+		name 'loopback debug'
+		value false
+		comment {
+			access 'read write'
+			type BOOLEAN
+			count 1
+		}
+	}
+}
