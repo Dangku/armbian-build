@@ -42,7 +42,13 @@ elif grep -q 'sun5i' /proc/cpuinfo; then DEVICE_TYPE="a13";
 else DEVICE_TYPE="a20"; fi
 BOOTLOADER="${CWD}/${DEVICE_TYPE}/bootloader"
 [ ! -d ${BOOTLOADER} ] && echo -e "### Board installation issue: Directory ${BOOTLOADER} does not exist or is not accessible!\n" && exit 1
-FIRSTSECTOR=32768
+
+# bpi, reserve 20MB for sunxi legacy
+if [[ $BOARDFAMILY == sun50iw9-bpi-legacy ]]; then
+	FIRSTSECTOR=40960
+else
+	FIRSTSECTOR=32768
+fi
 
 #recognize_root
 root_uuid=$(sed -e 's/^.*root=//' -e 's/ .*$//' < /proc/cmdline)
