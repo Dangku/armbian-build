@@ -20,9 +20,9 @@ INITRD_ARCH=arm
 # partition offset
 OFFSET=20
 
-#function fetch_sources_tools__meson_bpi_fip() {
-	#fetch_from_repo "https://github.com/Dangku/allwinner-boot-pack" "allwinner-boot-pack" "branch:master"
-#}
+function fetch_sources_tools__meson_bpi_fip() {
+	fetch_from_repo "https://github.com/Dangku/allwinner-boot-pack" "allwinner-boot-pack" "branch:master"
+}
 
 function add_host_dependencies__meson_bpi_hostdeb() {
 	display_alert "$BOARD" "adding legacy build host deps" "info"

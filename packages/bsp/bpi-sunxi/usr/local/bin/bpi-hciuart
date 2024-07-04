@@ -13,7 +13,10 @@ fi
 # Delay
 /bin/sleep 1
 
-/usr/bin/hciattach -n -s 115200 /dev/ttyAS1 any 1500000 flow nosleep
-#/usr/bin/hciattach -s 1500000 /dev/ttyAS1 any 1500000 flow nosleep
+# aic8800
+#/usr/bin/hciattach -n -s 115200 /dev/ttyAS1 any 1500000 flow nosleep
+
+# cyw43455
+/usr/local/bin/hciattach -n -s 115200 /dev/ttyAS1 bcm43xx 1500000 flow nosleep
 
 /bin/sleep 1

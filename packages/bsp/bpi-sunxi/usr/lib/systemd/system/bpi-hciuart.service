@@ -7,7 +7,7 @@ After=dev-ttyAS1.device modprobe@.service
 [Service]
 Type=simple
 ExecStartPre=/usr/sbin/rfkill unblock bluetooth
-ExecStart=/usr/local/bin/aic-hciuart
+ExecStart=/usr/local/bin/bpi-hciuart
 ExecStopPost=/usr/sbin/rfkill block bluetooth
 
 [Install]
