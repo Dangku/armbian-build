@@ -1,5 +1,6 @@
-##K019-CW43-DW 20211029
-NVRAMRev=$Rev: 498373 $
+# KEIIOT_K019-CW43-DW_NVRAM_20240617
+# Cloned from bcm94345wlpagb_p2xx.txt 
+
 sromrev=11
 vendid=0x14e4
 devid=0x43ab
@@ -10,14 +11,21 @@ nocrc=1
 boardtype=0x6e4
 boardrev=0x1304
 
+# country codec default ALL
+ccode=ALL
+#regrev=70
+
 #XTAL 37.4MHz
 xtalfreq=37400
 
-ccode=CN
-regrev=38
-
+#bluetooth
 btc_mode=1
-#------------------------------------------------------
+
+# steady rate
+cal_period=1
+
+
+#-----------------------------------------
 #boardflags: 5GHz eTR switch by default
 #            2.4GHz eTR switch by default
 #            bit1 for btcoex
@@ -34,12 +42,10 @@ tssipos2g=1
 femctrl=0
 AvVmid_c0=1,165,2,100,2,100,2,100,2,100
 
-#pa2ga0=-170,6462,-755
-#pa2ga1=-118,4850,-635
-pa2ga0=-166,6276,-718
-
-pa5ga0=-157,7145,-832,-157,7139,-829,-156,7130,-827,-152,7206,-832
-#pa5ga1=-142,4930,-655,-150,4859,-646,-156,4887,-644,-158,4864,-641
+pa2ga0=-195,5558,-672
+pa2ga1=-118,4850,-635
+pa5ga0=-203,5495,-683,-205,5489,-682,-207,5494,-678,-208,5549,-683
+pa5ga1=-142,4930,-655,-150,4859,-646,-156,4887,-644,-158,4864,-641
 
 itrsw=1
 pdoffset2g40ma0=10
@@ -56,21 +62,31 @@ ltecxpadnum=0x0504
 ltecxfnsel=0x22
 ltecxgcigpio=0x32
 
-maxp2ga0=80
-ofdmlrbw202gpo=0x0022
-dot11agofdmhrbw202gpo=0x4442
-mcsbw202gpo=0x98444422
-mcsbw402gpo=0x98444422
-maxp5ga0=82,82,82,82
-mcsbw205glpo=0xb9555000
-mcsbw205gmpo=0xb9555000
-mcsbw205ghpo=0xb9555000
-mcsbw405glpo=0xb9555000
-mcsbw405gmpo=0xb9555000
-mcsbw405ghpo=0xb9555000
-mcsbw805glpo=0xb9555000
-mcsbw805gmpo=0xb9555000
-mcsbw805ghpo=0xb9555000
+maxp2ga0=72
+cckbw202gpo=0x4444
+cckbw20ul2gpo=0x5555
+ofdmlrbw202gpo=0x2244
+dot11agofdmhrbw202gpo=0x7744
+
+mcsbw202gpo=0x88888888
+mcsbw402gpo=0xbbbbbbbb
+
+maxp5ga0=69,68,69,68
+
+#5GHz_20MHz Offset
+mcsbw205glpo=0x98873311
+mcsbw205gmpo=0x99653311
+mcsbw205ghpo=0x88753311
+
+#5GHz_40MHz Offset
+mcsbw405glpo=0xaa853311
+mcsbw405gmpo=0xaa753311
+mcsbw405ghpo=0xaa753311
+
+#5GHz_80MHz Offset
+mcsbw805glpo=0xab632211
+mcsbw805gmpo=0x89422211
+mcsbw805ghpo=0xab632211
 
 swctrlmap_2g=0x00000000,0x00000000,0x00000000,0x010000,0x3ff
 swctrlmap_5g=0x00100010,0x00200020,0x00200020,0x010000,0x3fe
@@ -84,6 +100,7 @@ ed_thresh2g=-54
 ed_thresh5g=-54
 eu_edthresh2g=-54
 eu_edthresh5g=-54
+
 ldo1=4
 rawtempsense=0x1ff
 cckPwrIdxCorr=3
@@ -92,12 +109,14 @@ ofdmTssiDelay=150
 txpwr2gAdcScale=1
 txpwr5gAdcScale=1
 dot11b_opts=0x3aa85
-cbfilttype=2
-fdsslevel_ch1=6
-fdsslevel_ch11=4
+cbfilttype=0
+fdss_level_2g=6
 
-# Remove the radiotap in monitor mode
-# no_radiotap=1
+#OFDM IIR:
+ofdmdigfilttype=7
+ofdmdigfilttypebe=7
+cckdigfilttype=5
+cbfilttype=0
 
 # Enable the Hardware OOB with muxenab = 0x10 or 0xf0
 muxenab=0x10
