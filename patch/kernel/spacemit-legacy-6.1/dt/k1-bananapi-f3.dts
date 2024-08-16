@@ -54,6 +54,12 @@
 	};
 };
 
+&pwm7 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm7_0>;
+	status = "disabled";
+};
+
 &pwm9 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm9_2>;
